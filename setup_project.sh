@@ -1,23 +1,41 @@
 #!/usr/bin/env bash
 #this implements the Student Attendance Tracker that build a "Project Factory
-
-ignal_Trap(){
-	  echo "Signal received. Cleaning it up abeg..."
+#3. Process Management(the trap)
+Signal_Trap(){
+          echo "A signal has been caught. I have to clean it up..."
 	  sleep 2
-	  cp -R attendance_tracker_$input attendance_tracker_"$input"_archive && rm -r attendance_tracker_$input
-	  echo "you have exited babes"
+	  tar -czf attendance_tracker_"$input"_archive attendance_tracker_$input && rm -r attendance_tracker_$input
+	  echo "your work has been saved"
 	   exit 0
   }
  trap Signal_Trap SIGINT
-read -p "enter a word for procedure to keep on:" input
-
+ #1. Directory Architecture
+ sleep 2
+ echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
+#writing conditons in case there i sno user input
+ sleep 2
+  echo "/_!_\\ warning you cannot procceed without an input"
+  sleep 2
+   while true
+        do
+          read -p "enter a word to proceed with the main file creation:" input
+                if [[ -n "$input" ]]
+                 then
+                    break
+                fi
+                 echo "there was no user input, repeat again"
+    done
  if [ -d "attendance_tracker_$input" ]
    then
 	   echo "You can immediately access the files inside the directory"
  else
+       echo "the attendance tracker directory does not exist, have to create it"
+       sleep 2
        echo "Creating parent directories, child directories and files"
        echo "--------------------------------------------------------"
+
 	 mkdir attendance_tracker_$input
+	 sleep 3
   	 touch attendance_tracker_$input/attendance_checker.py
 	 mkdir attendance_tracker_$input/Helpers
  	 mkdir attendance_tracker_$input/reports
@@ -28,3 +46,103 @@ read -p "enter a word for procedure to keep on:" input
      touch attendance_tracker_$input/Helpers/assets.csv
      touch attendance_tracker_$input/Helpers/config.json
      touch attendance_tracker_$input/reports/reports.log
+ ls -l
+#copying the content of the files assets config and reports into the existing files
+     echo " --- Attendance Report Run: 2026-02-06 18:10:01.468726 ---
+[2026-02-06 18:10:01.469363] ALERT SENT TO bob@example.com: URGENT: Bob Smith, your
+attendance is 46.7%. You will fail this class.
+[2026-02-06 18:10:01.469424] ALERT SENT TO charlie@example.com: URGENT: Charlie
+Davis, your attendance is 26.7%. You will fail this class." > attendance_tracker_$input/reports/reports.log
+       echo '       import csv
+             import json
+             import os
+             from datetime import datetime
+def run_attendance_check():
+         # 1. Load Config
+         with open('Helpers/config.json', 'r') as f:
+          config = json.load(f)
+
+        # 2. Archive old reports.log if it exists
+        if os.path.exists('reports/reports.log'):
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        os.rename('reports/reports.log',
+f'reports/reports_{timestamp}.log.archive')
+        # 3. Process Data
+        with open('Helpers/assets.csv', mode='r') as f, open('reports/reports.log',
+'w') as log:
+         reader = csv.DictReader(f)
+         total_sessions = config['total_sessions']
+         log.write(f"--- Attendance Report Run: {datetime.now()} ---\n")
+
+         for row in reader:
+            name = row['Names']
+            email = row['Email']
+            attended = int(row['Attendance Count'])
+            # Simple Math: (Attended / Total) * 100
+            attendance_pct = (attended / total_sessions) * 100
+	    
+            message = ""
+            if attendance_pct < config['thresholds']['failure']:
+               message = f"URGENT: {name}, your attendance is {attendance_pct:.1f}
+%. You will fail this class."
+             elif attendance_pct < config['thresholds']['warning']:
+                  message = f"WARNING: {name}, your attendance is
+{attendance_pct:.1f}%. Please be careful."
+	
+             if message:
+                 if config['run_mode'] == "live":
+                      log.write(f"[{datetime.now()}] ALERT SENT TO {email}: {message}
+\n")
+                      print(f"Logged alert for {name}")
+                 else:
+                      print(f"[DRY RUN] Email to {email}: {message}")
+if __name__ == "__main__":
+              run_attendance_check()' > attendance_tracker_$input/attendance_checker.py
+
+    echo "Email          Names          Attendance Count        Absence Count
+alice@example.com      Alice Johnson            14                        1
+bob@example.com        Bob Smith            7                             8
+charlie@example.com    Charlie Davis           4                         11
+diana@example.com      Diana Prince            15                         0 " > attendance_tracker_$input/Helpers/assets.csv
+     echo "{
+    "thresholds": {
+        "warning": 75,
+        "failure": 50
+    },
+    "run_mode": "live",
+    "total_sessions": 15
+}" > attendance_tracker_$input/Helpers/config.json
+
+#2. Dynamic Configuration (Stream Editing)
+#prompting the user if he would like to update the students' attendance tresholds
+read -p "would you like to update the attendance tresholds? (yes/no):" choice
+      if [[ "$choice" == "yes" ]]
+        then
+           echo "a message to update will be shortly sent to you"
+       fi 
+      sleep 2
+#updating attendance tresholds with only numbers and percentage
+
+ while true
+    do 
+
+     read -p "updated value to warn a student:" Warning
+     sleep 1
+     read -p "updated value for a student who failed:" Failure
+
+          if [[ "$Warning" =~ ^[0-9%]+$ ]];
+         then
+                break
+
+          fi
+       echo "no letters accepted, the value of "Warning" has to be a number"
+      
+          if [[ "$Failure" =~ ^[0-9%]+$ ]];
+           then
+	       break
+	  fi 
+       echo " no letters accepted, the value of "Failure" has to be a number"
+
+  done
+ #editing the config.json file in place with new values
+ sed -i 's/warning/Warning/g' attendance_tracker_$input/Helpers/config.json
