@@ -14,7 +14,7 @@ Signal_Trap(){
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
 #writing conditons in case there i sno user input
  sleep 2
-  echo "/_!_\\ warning you cannot procceed without an input"
+  echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
   sleep 2
    while true
         do
@@ -48,11 +48,15 @@ Signal_Trap(){
      touch attendance_tracker_$input/reports/reports.log
  ls -l
 #copying the content of the files assets config and reports into the existing files
+
+##adding content to the reports.log file
      echo " --- Attendance Report Run: 2026-02-06 18:10:01.468726 ---
 [2026-02-06 18:10:01.469363] ALERT SENT TO bob@example.com: URGENT: Bob Smith, your
 attendance is 46.7%. You will fail this class.
 [2026-02-06 18:10:01.469424] ALERT SENT TO charlie@example.com: URGENT: Charlie
 Davis, your attendance is 26.7%. You will fail this class." > attendance_tracker_$input/reports/reports.log
+
+##adding content to the "attendance_checker.py" file 
        echo '       import csv
              import json
              import os
@@ -104,6 +108,8 @@ alice@example.com      Alice Johnson            14                        1
 bob@example.com        Bob Smith            7                             8
 charlie@example.com    Charlie Davis           4                         11
 diana@example.com      Diana Prince            15                         0 " > attendance_tracker_$input/Helpers/assets.csv
+
+## adding content to the config.json file 
      echo "{
     "thresholds": {
         "warning": 75,
@@ -146,3 +152,17 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
   done
  #editing the config.json file in place with new values
  sed -i 's/warning/Warning/g' attendance_tracker_$input/Helpers/config.json
+
+#4.Environment Validation
+#checking if the python3 exist
+ p="python3"
+#let us use a condition
+if command -v $p &>/dev/null 
+    then 
+	echo "python3 is installed"
+	python3 --version
+else
+	echo "python3 does not exist you have to create it"
+	sudo apt install python3 python3-pip
+fi
+
