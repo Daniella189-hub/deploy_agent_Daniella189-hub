@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #this implements the Student Attendance Tracker that build a "Project Factory
 #3. Process Management(the trap)
-Signal_Trap(){
+Trap(){
           echo "A signal has been caught. I have to clean it up..."
 	  sleep 2
 	  tar -czf attendance_tracker_"$input"_archive attendance_tracker_$input && rm -r attendance_tracker_$input
 	  echo "your work has been saved"
 	   exit 0
   }
- trap Signal_Trap SIGINT
+ trap Trap SIGINT
  #1. Directory Architecture
  sleep 2
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
@@ -122,12 +122,20 @@ diana@example.com      Diana Prince            15                         0 " > 
 #2. Dynamic Configuration (Stream Editing)
 #prompting the user if he would like to update the students' attendance tresholds
 read -p "would you like to update the attendance tresholds? (yes/no):" choice
-      if [[ "$choice" == "yes" ]]
+ while true
+  do 
+   read -p "would you like to update the attendance tresholds? (yes/no):" choice
+		if [[ !-s "$choice" ]]
         then
-           echo "a message to update will be shortly sent to you"
+		break
        fi 
-      sleep 2
-#updating attendance tresholds with only numbers and percentage
+           echo "no user input, you cannot proceed"
+	       if [[ "$choice" == "yes" ]]
+		 then 
+                    echo "a message to update will be shortly sent to you"
+	        fi 
+  done
+  #updating attendance tresholds with only numbers and percentage
 
  while true
     do 
@@ -152,7 +160,8 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
   done
  #editing the config.json file in place with new values
  sed -i 's/\"warning" : 75 /\"warning": $Warning' attendance_tracker_$input/Helpers/config.json
-;x
+ sed -i 's/\"failure" : 75 /\"Failure": $Failure' attendance_tracker_$input/Helpers/config.json
+
 
 #4.Environment Validation
 #checking if the python3 exist
