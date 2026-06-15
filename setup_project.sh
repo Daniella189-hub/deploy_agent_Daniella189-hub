@@ -14,7 +14,7 @@ Signal_Trap(){
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
 #writing conditons in case there i sno user input
  sleep 2
-  echo "/_!_\\ warning you cannot procceed without an input"
+  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
   sleep 2
    while true
         do
