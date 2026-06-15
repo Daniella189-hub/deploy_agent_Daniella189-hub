@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
-#this implements the Student Attendance Tracker that build a "Project Factory
+#this imiplements the Student Attendance Tracker that build a "Project Factory
 #3. Process Management(the trap)
-Signal_Trap(){
+Trap(){
           echo "A signal has been caught. I have to clean it up..."
 	  sleep 2
 	  tar -czf attendance_tracker_"$input"_archive attendance_tracker_$input && rm -r attendance_tracker_$input
 	  echo "your work has been saved"
 	   exit 0
   }
- trap Signal_Trap SIGINT
+ trap Trap SIGINT
  #1. Directory Architecture
  sleep 2
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
-#writing conditons in case there i sno user input
+#writing conditions in case there i sno user input
  sleep 2
+<<<<<<< HEAD
   echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
+=======
+  echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
+>>>>>>> f6caa0d7fb2ffd272d1fc64323d30657ccb823fa
   sleep 2
    while true
         do
@@ -29,7 +33,9 @@ Signal_Trap(){
    then
 	   echo "You can immediately access the files inside the directory"
  else
-       echo "the attendance tracker directory does not exist, have to create it"
+	 sleep 1
+       echo "from your input,a directotry named the attendance_tracker_$input has to be existing, but it doesnt. I have to create it first"
+       echo "the attendance_tracker_$input does not exist, have to create it"
        sleep 2
        echo "Creating parent directories, child directories and files"
        echo "--------------------------------------------------------"
@@ -47,12 +53,17 @@ Signal_Trap(){
      touch attendance_tracker_$input/Helpers/config.json
      touch attendance_tracker_$input/reports/reports.log
  ls -l
+ sleep 2
 #copying the content of the files assets config and reports into the existing files
+
+##adding content to the reports.log file
      echo " --- Attendance Report Run: 2026-02-06 18:10:01.468726 ---
 [2026-02-06 18:10:01.469363] ALERT SENT TO bob@example.com: URGENT: Bob Smith, your
 attendance is 46.7%. You will fail this class.
 [2026-02-06 18:10:01.469424] ALERT SENT TO charlie@example.com: URGENT: Charlie
 Davis, your attendance is 26.7%. You will fail this class." > attendance_tracker_$input/reports/reports.log
+
+##adding content to the "attendance_checker.py" file 
        echo '       import csv
              import json
              import os
@@ -104,6 +115,8 @@ alice@example.com      Alice Johnson            14                        1
 bob@example.com        Bob Smith            7                             8
 charlie@example.com    Charlie Davis           4                         11
 diana@example.com      Diana Prince            15                         0 " > attendance_tracker_$input/Helpers/assets.csv
+
+## adding content to the config.json file 
      echo "{
     "thresholds": {
         "warning": 75,
@@ -115,34 +128,63 @@ diana@example.com      Diana Prince            15                         0 " > 
 
 #2. Dynamic Configuration (Stream Editing)
 #prompting the user if he would like to update the students' attendance tresholds
-read -p "would you like to update the attendance tresholds? (yes/no):" choice
-      if [[ "$choice" == "yes" ]]
+
+echo "Now that you have created and copied content in the files needed,\n lets do some updates in them" 
+sleep 2
+ while true
+  do 
+   read -p "would you like to update the attendance tresholds? (yes/no):" choice
+		if [ -n "$choice" ]
         then
-           echo "a message to update will be shortly sent to you"
+		break
        fi 
-      sleep 2
-#updating attendance tresholds with only numbers and percentage
+           echo "no user input, you cannot proceed"
+	       if [[ "$choice" != "no" || "$choice" != "yes" ]]
+		  then
+	 
+		     echo "your answer has to be yes or no, make a choice again:"
+		     break
+	       fi
+	       if [[ "$choice" == "yes" ]]
+		 then 
+ 
+    	echo "a message to update will be shortly sent to you"
+	        fi 
+  done
+  #updating attendance tresholds with only numbers and percentage
 
  while true
     do 
 
-     read -p "updated value to warn a student:" Warning
-     sleep 1
-     read -p "updated value for a student who failed:" Failure
+     read -p "updated value for a treshold of warning:" Warning
+     sleep 2
+     read -p "updated value for a treshold of failure:" Failure
 
-          if [[ "$Warning" =~ ^[0-9%]+$ ]];
+          if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
          then
                 break
 
-          fi
-       echo "no letters accepted, the value of "Warning" has to be a number"
-      
-          if [[ "$Failure" =~ ^[0-9%]+$ ]];
-           then
-	       break
-	  fi 
-       echo " no letters accepted, the value of "Failure" has to be a number"
+        fi
+       echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
   done
  #editing the config.json file in place with new values
- sed -i 's/warning/Warning/g' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"warning\" : 75/\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"failure\" : 50/\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
+   echo "Tresholds updated"
+
+#4.Environment Validation
+#checking if the python3 exist
+ p="python3"
+#let us use a condition
+if command -v $p &>/dev/null 
+    then 
+	echo "python3 is installed"
+	python3 --version
+else
+	echo "python3 does not exist you have to create it"
+	sudo apt install python3 python3-pip
+fi
+
+echo "Good job, you have created and updated the system"
+
