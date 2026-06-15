@@ -140,28 +140,22 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
  while true
     do 
 
-     read -p "updated value to warn a student:" Warning
+     read -p "updated value for a treshold of warning:" Warning
      sleep 1
-     read -p "updated value for a student who failed:" Failure
+     read -p "updated value for a treshold of failure" Failure
 
-          if [[ "$Warning" =~ ^[0-9%]+$ ]];
+          if [[ "$Warning" =~ ^[0-9%]+$ || "$Failure" =~ ^[0-9%]+$ ]];
          then
                 break
 
           fi
-       echo "no letters accepted, the value of "Warning" has to be a number"
-      
-          if [[ "$Failure" =~ ^[0-9%]+$ ]];
-           then
-	       break
-	  fi 
-       echo " no letters accepted, the value of "Failure" has to be a number"
+       echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
   done
  #editing the config.json file in place with new values
- sed -i 's/\"warning" : 75 /\"warning": $Warning' attendance_tracker_$input/Helpers/config.json
- sed -i 's/\"failure" : 75 /\"Failure": $Failure' attendance_tracker_$input/Helpers/config.json
-
+ sed -i 's/\"warning\" : 75 /\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"failure\" : 50 /\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
+   echo "Tresholds updated"
 
 #4.Environment Validation
 #checking if the python3 exist
