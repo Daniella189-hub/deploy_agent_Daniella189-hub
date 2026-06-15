@@ -127,7 +127,6 @@ diana@example.com      Diana Prince            15                         0 " > 
 
 echo "Now that you have created and copied content in the files needed,\n lets do some updates in them" 
 sleep 2
-read -p "would you like to update the attendance tresholds? (yes/no):" choice
  while true
   do 
    read -p "would you like to update the attendance tresholds? (yes/no):" choice
@@ -136,6 +135,12 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
 		break
        fi 
            echo "no user input, you cannot proceed"
+	       if [[ "$choice" != "no" || "$choice" != "yes" ]]
+		  then
+	 
+		     echo "your answer has to be yes or no, make a choice again:"
+		     break
+	       fi
 	       if [[ "$choice" == "yes" ]]
 		 then 
  
@@ -151,7 +156,7 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
      sleep 2
      read -p "updated value for a treshold of failure:" Failure
 
-          if [[ "$Warning" =~ ^[0-9%]+$ || "$Failure" =~ ^[0-9%]+$ ]];
+          if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
          then
                 break
 
@@ -160,8 +165,8 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
 
   done
  #editing the config.json file in place with new values
- sed -i 's/\"warning\" : 75 /\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
- sed -i 's/\"failure\" : 50 /\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"warning\" : 75/\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"failure\" : 50/\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
    echo "Tresholds updated"
 
 #4.Environment Validation
