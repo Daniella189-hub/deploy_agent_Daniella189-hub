@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#this implements the Student Attendance Tracker that build a "Project Factory
+#this imiplements the Student Attendance Tracker that build a "Project Factory
 #3. Process Management(the trap)
 Trap(){
           echo "A signal has been caught. I have to clean it up..."
@@ -12,13 +12,9 @@ Trap(){
  #1. Directory Architecture
  sleep 2
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
-#writing conditons in case there i sno user input
+#writing conditions in case there i sno user input
  sleep 2
-<<<<<<< HEAD
   echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
-=======
-  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
->>>>>>> 5d2ba9c (updating my main branch)
   sleep 2
    while true
         do
@@ -33,7 +29,9 @@ Trap(){
    then
 	   echo "You can immediately access the files inside the directory"
  else
-       echo "the attendance tracker directory does not exist, have to create it"
+	 sleep 1
+       echo "from your input,a directotry named the attendance_tracker_$input has to be existing, but it doesnt. I have to create it first"
+       echo "the attendance_tracker_$input does not exist, have to create it"
        sleep 2
        echo "Creating parent directories, child directories and files"
        echo "--------------------------------------------------------"
@@ -51,6 +49,7 @@ Trap(){
      touch attendance_tracker_$input/Helpers/config.json
      touch attendance_tracker_$input/reports/reports.log
  ls -l
+ sleep 2
 #copying the content of the files assets config and reports into the existing files
 
 ##adding content to the reports.log file
@@ -125,18 +124,22 @@ diana@example.com      Diana Prince            15                         0 " > 
 
 #2. Dynamic Configuration (Stream Editing)
 #prompting the user if he would like to update the students' attendance tresholds
+
+echo "Now that you have created and copied content in the files needed,\n lets do some updates in them" 
+sleep 2
 read -p "would you like to update the attendance tresholds? (yes/no):" choice
  while true
   do 
    read -p "would you like to update the attendance tresholds? (yes/no):" choice
-		if [[ !-s "$choice" ]]
+		if [ -n "$choice" ]
         then
 		break
        fi 
            echo "no user input, you cannot proceed"
 	       if [[ "$choice" == "yes" ]]
 		 then 
-                    echo "a message to update will be shortly sent to you"
+ 
+    	echo "a message to update will be shortly sent to you"
 	        fi 
   done
   #updating attendance tresholds with only numbers and percentage
@@ -145,14 +148,14 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
     do 
 
      read -p "updated value for a treshold of warning:" Warning
-     sleep 1
-     read -p "updated value for a treshold of failure" Failure
+     sleep 2
+     read -p "updated value for a treshold of failure:" Failure
 
           if [[ "$Warning" =~ ^[0-9%]+$ || "$Failure" =~ ^[0-9%]+$ ]];
          then
                 break
 
-          fi
+        fi
        echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
   done
@@ -173,4 +176,6 @@ else
 	echo "python3 does not exist you have to create it"
 	sudo apt install python3 python3-pip
 fi
+
+echo "Good job, you have created and updated the system"
 
