@@ -151,7 +151,8 @@ read -p "would you like to update the attendance tresholds? (yes/no):" choice
 
   done
  #editing the config.json file in place with new values
- sed -i 's/warning/Warning/g' attendance_tracker_$input/Helpers/config.json
+ sed -i 's/\"warning" : 75 /\"warning": $Warning' attendance_tracker_$input/Helpers/config.json
+;x
 
 #4.Environment Validation
 #checking if the python3 exist
