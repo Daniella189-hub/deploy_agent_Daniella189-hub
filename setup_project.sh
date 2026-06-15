@@ -14,11 +14,11 @@ Trap(){
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
 #writing conditions in case there i sno user input
  sleep 2
-<<<<<<< HEAD
+
   echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
-=======
+
   echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
->>>>>>> f6caa0d7fb2ffd272d1fc64323d30657ccb823fa
+
   sleep 2
    while true
         do
@@ -141,33 +141,34 @@ sleep 2
            echo "no user input, you cannot proceed"
 	       if [[ "$choice" != "no" || "$choice" != "yes" ]]
 		  then
-	 
-		     echo "your answer has to be yes or no, make a choice again:"
-		     break
-	       fi
-	       if [[ "$choice" == "yes" ]]
-		 then 
- 
-    	echo "a message to update will be shortly sent to you"
-	        fi 
+	             break
+		   fi 
+	        echo "your answer has to be yes or no, make a choice again:"
   done
+  #this send you a message of updating the threshold
+  if [[ "$choice" == "yes" ]]
+    then
+       echo "a message to update will be shortly sent to you"
+
   #updating attendance tresholds with only numbers and percentage
 
- while true
-    do 
+       while true
+          do  
+            read -p "updated value for a threshold of warning:" Warning
+            sleep 2
+            read -p "updated value for a treshold of failure:" Failure
 
-     read -p "updated value for a treshold of warning:" Warning
-     sleep 2
-     read -p "updated value for a treshold of failure:" Failure
+            if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
+                 then
+                    break
 
-          if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
-         then
-                break
-
-        fi
+              fi
        echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
-  done
+         done
+    else
+             echo "threshold has been kept at default 75% for warning and 50% for failure"
+       fi
  #editing the config.json file in place with new values
  sed -i 's/\"warning\" : 75/\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
  sed -i 's/\"failure\" : 50/\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
