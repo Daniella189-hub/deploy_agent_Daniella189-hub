@@ -14,7 +14,11 @@ Trap(){
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
 #writing conditons in case there i sno user input
  sleep 2
+<<<<<<< HEAD
   echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
+=======
+  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
+>>>>>>> 5d2ba9c (updating my main branch)
   sleep 2
    while true
         do
