@@ -70,4 +70,5 @@ you can run ./setup_project.sh
  to be able to see the executed script and all files created                       
 ## Author
 Daniella189-hub
-
+## a link to my video
+https://1drv.ms/v/c/85ea0b08408ca5c0/IQBAebeIu_L_T6bz6u0_9JVvAeJMBinVmjrsNysA_bTbdkY?e=Guh3dT
