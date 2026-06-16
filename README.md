@@ -5,9 +5,8 @@ Student Attendance Tracker
 
 ## Requirements
    - Bash (version 4+)
-   - Python3 
-   - pip3 
-   - standard Linux utilities or mastery ( sed, tar, mkdir, touch)
+   - Python3
+   - Standard Linux utilities or mastery ( sed, tar, mkdir, touch)
 ## Usage 
 In your terminal (bash) run the command " chmod +x setup_project.sh) to give access to execution permissions. 
 and after that run the command "./setup_project.sh" this will run the written script. the file setup_project.sh contains all needed to make this project be created and function efficiently
@@ -39,7 +38,7 @@ attendance_tracker_{input}/
  in this script, if you Ctrl+c at any point to kill the execution, the script will :
    - catch the "SIGINT" signal
    - archive your workspace into a ".tar.gz" file
-   - remove the original directory making sure it keeps a file ( the .tar.gz) that has the execution before you typed "Ctrl+c"
+   - remove the original directory making sure it keeps an archive that has the last execution before you typed "Ctrl+c"
    - exits cleanly 
 5. Environment Validation
  The script checks if python3 is installed. If not, it installs it automatically using apt.
@@ -65,10 +64,10 @@ reports/reports.log            Output log of attendance alerts
     "total_sessions": 15
 }
 
-## Running the Python Tracker
+## Running the Student Attendance Tracker
 After the script sets up the workspace:
- you can run the next command : - cd attendance_tracker_{input}
-                                - pyhton3 attendance_checker.py
+you can run ./setup_project.sh
+ to be able to see the executed script and all files created                       
 ## Author
 Daniella189-hub
 

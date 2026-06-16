@@ -183,6 +183,7 @@ echo "Now lets see run the health check to see if Python3 is installed on our co
 sleep 2
 echo " Health Check: Verifying Python3 installation"
 echo " --------------------------------------------"
+sleep 2
  p="python3"
 if command -v $p &>/dev/null 
     then 
@@ -193,5 +194,6 @@ else
 	echo "python3 does not exist you have to create it"
 	sudo apt update && sudo apt install python3 -y
 fi 
+sleep 2
 echo "Good job, you have created and updated the system"
 
