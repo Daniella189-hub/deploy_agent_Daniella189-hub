@@ -7,7 +7,7 @@ Student Attendance Tracker
    - Bash (version 4+)
    - Python3 
    - pip3 
-   -standard Linux utilities or mastery ( sed, tar, mkdir, touch)
+   - standard Linux utilities or mastery ( sed, tar, mkdir, touch)
 ## Usage 
 In your terminal (bash) run the command " chmod +x setup_project.sh) to give access to execution permissions. 
 and after that run the command "./setup_project.sh" this will run the written script. the file setup_project.sh contains all needed to make this project be created and function efficiently
