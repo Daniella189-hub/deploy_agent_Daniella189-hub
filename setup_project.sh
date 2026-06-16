@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#this imiplements the Student Attendance Tracker that build a "Project Factory
+#this implements the Student Attendance Tracker that build a "Project Factory"
 #3. Process Management(the trap)
 Trap(){
           echo "A signal has been caught. I have to clean it up..."
@@ -12,10 +12,10 @@ Trap(){
  #1. Directory Architecture
  sleep 2
  echo "I am going to set up an environment that creates the workspace, tracks and update the student attendance in school"
-#writing conditions in case there i sno user input
+#writing conditions in case there is no user input
  sleep 2
 
-  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it"
+  echo "/_!_\\ warning you will not be able to procceed without an input where you are supposed to add it"
 
   sleep 2
    while true
@@ -160,21 +160,20 @@ sleep 2
   
             read -p "updated value for a treshold of failure:" Failure
 
-            if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
+            if [[ "$Warning" =~ ^[0-9]+$ && "$Failure" =~ ^[0-9]+$ ]];
                  then
                     break
-
               fi
        echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
          done
 #editing in place the config.json file with its new value Warning with warning and Failure with failure
 	  sed -i "s/\"warning\": [0-9]*/\"warning\": $Warning/" attendance_tracker_${input}/Helpers/config.json
-          sed -i "s/\"failure\": [0-9]*/\"Failure\": $Failure/" attendance_tracker_${input}/Helpers/config.json
+          sed -i "s/\"failure\": [0-9]*/\"failure\": $Failure/" attendance_tracker_${input}/Helpers/config.json
    echo "Tresholds updated"
    cat attendance_tracker_${input}/Helpers/config.json
     else
-             echo "threshold has been kept at default 75% for warning and 50% for failure"
+             echo "threshold has been kept at default: 75% for warning and 50% for failure"
        fi
 sleep 2
 #4.Environment Validation
@@ -192,8 +191,7 @@ if command -v $p &>/dev/null
 	python3 --version
 else
 	echo "python3 does not exist you have to create it"
-	sudo apt install python3 python3-pip
-fi
-python3 attendance_tracker_${input}/attendance_checker.py 
+	sudo apt update && sudo apt install python3 -y
+fi 
 echo "Good job, you have created and updated the system"
 

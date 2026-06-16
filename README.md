@@ -1,5 +1,5 @@
 # Project title
-   deploy agent Daniella189-hub
+Student Attendance Tracker
 ## Project Decription
  This is a Bash script that stes up and manages a student attendance tracking workspace and do some update the treshold of when a student should be warned or send a failure message form the percentage He received. It creates the directory structure, populates configuration and data files, allows threshold updates, and validates the Python environment needed to run the tracker.
 
