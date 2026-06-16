@@ -15,9 +15,7 @@ Trap(){
 #writing conditions in case there i sno user input
  sleep 2
 
-  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it "
-
-  echo "/_!_\\ warning you will not procceed without an input where you are supposed to add it"
+  echo "/_!_\\ warning you will not be able procceed without an input where you are supposed to add it"
 
   sleep 2
    while true
@@ -34,10 +32,10 @@ Trap(){
 	   echo "You can immediately access the files inside the directory"
  else
 	 sleep 1
-       echo "from your input,a directotry named the attendance_tracker_$input has to be existing, but it doesnt. I have to create it first"
-       echo "the attendance_tracker_$input does not exist, have to create it"
+       echo "From your input,a directotry named the attendance_tracker_$input has to be existing, but it doesnt. I have to create it first"
+
        sleep 2
-       echo "Creating parent directories, child directories and files"
+       echo "Creating directories and files needed to set up the system"
        echo "--------------------------------------------------------"
 
 	 mkdir attendance_tracker_$input
@@ -117,14 +115,14 @@ charlie@example.com    Charlie Davis           4                         11
 diana@example.com      Diana Prince            15                         0 " > attendance_tracker_$input/Helpers/assets.csv
 
 ## adding content to the config.json file 
-     echo "{
+     echo '{
     "thresholds": {
         "warning": 75,
         "failure": 50
     },
     "run_mode": "live",
     "total_sessions": 15
-}" > attendance_tracker_$input/Helpers/config.json
+}' > attendance_tracker_$input/Helpers/config.json
 
 #2. Dynamic Configuration (Stream Editing)
 #prompting the user if he would like to update the students' attendance tresholds
@@ -134,16 +132,12 @@ sleep 2
  while true
   do 
    read -p "would you like to update the attendance tresholds? (yes/no):" choice
-		if [ -n "$choice" ]
+		if [[ -n "$choice" && "$choice" == "no" || "$choice" == "yes" ]]
         then
 		break
        fi 
-           echo "no user input, you cannot proceed"
-	       if [[ "$choice" != "no" || "$choice" != "yes" ]]
-		  then
-	             break
-		   fi 
-	        echo "your answer has to be yes or no, make a choice again:"
+           echo "no user input, you cannot proceed."
+	   echo "enter yes or no only"
   done
   #this send you a message of updating the threshold
   if [[ "$choice" == "yes" ]]
@@ -155,7 +149,7 @@ sleep 2
        while true
           do  
             read -p "updated value for a threshold of warning:" Warning
-            sleep 2
+  
             read -p "updated value for a treshold of failure:" Failure
 
             if [[ "$Warning" =~ ^[0-9%]+$ && "$Failure" =~ ^[0-9%]+$ ]];
@@ -166,21 +160,25 @@ sleep 2
        echo " no letters accepted, the values of "Failure" and "Warning" have to be numbers"
 
          done
+#editing in place the config.json file with its new value Warning with warning and Failure with failure
+	  sed -i "s/\"warning\" : [0-9]*/\"warning\": $Warning/" attendance_tracker_$input/Helpers/config.json
+          sed -i "s/\"failure\" : [0-9]*/\"Failure\": $Failure/" attendance_tracker_$input/Helpers/config.json
+   echo "Tresholds updated"
+   cat attendance_tracker_$input/Helpers/config.json
     else
              echo "threshold has been kept at default 75% for warning and 50% for failure"
        fi
- #editing the config.json file in place with new values
- sed -i 's/\"warning\" : 75/\"warning\": $Warning/' attendance_tracker_$input/Helpers/config.json
- sed -i 's/\"failure\" : 50/\"Failure\": $Failure/' attendance_tracker_$input/Helpers/config.json
-   echo "Tresholds updated"
-
+sleep 2
 #4.Environment Validation
 #checking if the python3 exist
  p="python3"
 #let us use a condition
+echo "lets see if Python3 is install and be ab0le to run the attendance_cheker.py file"
+sleep 2
 if command -v $p &>/dev/null 
     then 
 	echo "python3 is installed"
+	sleep 1
 	python3 --version
 else
 	echo "python3 does not exist you have to create it"
